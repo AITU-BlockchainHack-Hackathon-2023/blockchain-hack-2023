@@ -1,6 +1,7 @@
 package oraclus
 
 import (
+	"context"
 	"errors"
 	"net/http"
 
@@ -10,7 +11,6 @@ import (
 const baseURL = "https://leap.oraclus.com/v1"
 
 var (
-	getTransactionURL = baseURL + "/transaction/%s/%s" // blockchain, tx_hash
 	getWalletURL = baseURL + "/address/%s/%s" // blockchain, address
 
 )
@@ -36,4 +36,12 @@ func New(
 		c:      c,
 		logger: logger,
 	}, nil
+}
+
+func (m Manager) GetAddressInfo(
+	ctx context.Context,
+	blockchain,
+	address string,
+) {
+
 }
