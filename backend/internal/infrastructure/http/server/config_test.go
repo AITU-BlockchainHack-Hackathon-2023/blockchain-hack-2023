@@ -20,7 +20,7 @@ func TestConfig_Validate(t *testing.T) {
 				Host:              "localhost:",
 				Port:              "7834",
 				ReadHeaderTimeout: time.Hour,
-				handler:           http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}),
+				Handler:           http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}),
 			},
 			noErr: true,
 		},
@@ -29,7 +29,7 @@ func TestConfig_Validate(t *testing.T) {
 			config: Config{
 				Port:              "7834",
 				ReadHeaderTimeout: time.Hour,
-				handler:           http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}),
+				Handler:           http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}),
 			},
 		},
 		{
@@ -37,7 +37,7 @@ func TestConfig_Validate(t *testing.T) {
 			config: Config{
 				Host:              "localhost:",
 				ReadHeaderTimeout: time.Hour,
-				handler:           http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}),
+				Handler:           http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}),
 			},
 		},
 		{
@@ -45,7 +45,7 @@ func TestConfig_Validate(t *testing.T) {
 			config: Config{
 				Host:    "localhost:",
 				Port:    "7834",
-				handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}),
+				Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}),
 			},
 		},
 		{

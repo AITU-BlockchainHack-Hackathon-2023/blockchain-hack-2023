@@ -1,0 +1,14 @@
+{"level":"ERROR","T":"2023-12-16T18:49:22.824+0600","module":"V1API","msg":"error in get account info","error":"get address info: unmarshal response","address":"0xD2EB3819F6f2806C479441b10De6af825cD48796"}
+{"level":"ERROR","T":"2023-12-16T18:50:12.237+0600","module":"V1API","msg":"error in get account info","error":"get address info: unmarshal response: json: cannot unmarshal string into Go struct field ResponseEntity.net_worth_usd of type float64","address":"0xD2EB3819F6f2806C479441b10De6af825cD48796"}
+{"level":"ERROR","T":"2023-12-16T18:51:49.621+0600","module":"V1API","msg":"error in get account info","error":"get address info: unmarshal response: json: cannot unmarshal string into Go struct field Asset.assets.balance of type float64","address":"0xD2EB3819F6f2806C479441b10De6af825cD48796"}
+{"level":"INFO","T":"2023-12-16T18:52:50.841+0600","module":"V1API","msg":"success get account info request"}
+{"level":"INFO","T":"2023-12-16T18:53:28.379+0600","module":"V1API","msg":"success get account info request"}
+{"level":"ERROR","T":"2023-12-16T18:54:12.931+0600","module":"V1API","msg":"error in get account info","error":"get address info: unmarshal response: json: cannot unmarshal number 1.0 into Go struct field Asset.assets.asset_weight of type int","address":"0x87e722173f2d28ce10ce1fa9bd862912fe7e24e6"}
+{"level":"ERROR","T":"2023-12-16T18:54:54.561+0600","module":"V1API","msg":"error in get account info","error":"get address info: unmarshal response: json: cannot unmarshal number into Go struct field Asset.assets.asset_weight of type string","address":"0x87e722173f2d28ce10ce1fa9bd862912fe7e24e6"}
+{"level":"ERROR","T":"2023-12-16T18:55:24.799+0600","module":"V1API","msg":"error in get account info","error":"get address info: new domain token: validate: logo url is empty","address":"0x87e722173f2d28ce10ce1fa9bd862912fe7e24e6"}
+{"level":"ERROR","T":"2023-12-16T18:56:12.764+0600","module":"V1API","msg":"error in get account info","error":"get address info: new domain token: validate: name is empty","address":"0x87e722173f2d28ce10ce1fa9bd862912fe7e24e6"}
+{"level":"INFO","T":"2023-12-16T18:57:39.429+0600","module":"V1API","msg":"success get account info request"}
+{"level":"INFO","T":"2023-12-16T18:58:03.410+0600","module":"V1API","msg":"success get account info request"}
+{"level":"INFO","T":"2023-12-16T18:58:26.241+0600","module":"V1API","msg":"success get account info request"}
+{"level":"INFO","T":"2023-12-16T18:59:35.310+0600","module":"V1API","msg":"success get account info request"}
+{"level":"INFO","T":"2023-12-16T19:01:13.208+0600","module":"V1API","msg":"success get account info request"}

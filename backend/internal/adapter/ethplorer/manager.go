@@ -42,6 +42,8 @@ func New(
 	return &Manager{
 		c:      c,
 		logger: logger,
+
+		apiKey: "gunng6075LcTv51",
 	}, nil
 }
 

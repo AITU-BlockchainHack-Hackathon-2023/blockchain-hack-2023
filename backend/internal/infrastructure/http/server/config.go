@@ -11,7 +11,7 @@ type Config struct {
 	Host              string
 	Port              string
 	ReadHeaderTimeout time.Duration
-	handler           http.Handler
+	Handler           http.Handler
 }
 
 func (c Config) Validate() error {
@@ -27,7 +27,7 @@ func (c Config) Validate() error {
 		return errors.New("read header timeout is less or equal 0")
 	}
 
-	if c.handler == nil {
+	if c.Handler == nil {
 		return errors.New("handler is empty")
 	}
 

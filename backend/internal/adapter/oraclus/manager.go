@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"go.uber.org/zap"
 
@@ -46,16 +47,16 @@ func (m Manager) GetAddressInfo(
 	ctx context.Context,
 	blockchain,
 	address string,
-) (domain.AccountDTO, error) {
+) (domain.AccountDTO, []domain.Token, error) {
 	requestURL := fmt.Sprintf(getWalletURL, blockchain, address)
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, requestURL, nil)
 	if err != nil {
-		return domain.AccountDTO{}, fmt.Errorf("new request: %w", err)
+		return domain.AccountDTO{}, nil, fmt.Errorf("new request: %w", err)
 	}
 
 	resp, err := m.c.Do(req)
 	if err != nil {
-		return domain.AccountDTO{}, fmt.Errorf("make request: %w", err)
+		return domain.AccountDTO{}, nil, fmt.Errorf("make request: %w", err)
 	}
 	defer resp.Body.Close()
 
@@ -65,19 +66,50 @@ func (m Manager) GetAddressInfo(
 			zap.Int("status_code", resp.StatusCode),
 			zap.String("request_url", requestURL),
 		)
-		return domain.AccountDTO{}, errors.New("error in request")
+		return domain.AccountDTO{}, nil, errors.New("error in request")
 	}
 
 	var respEntity ResponseEntity
 	if err := json.NewDecoder(resp.Body).Decode(&respEntity); err != nil {
-		return domain.AccountDTO{}, fmt.Errorf("unmarshal response")
+		return domain.AccountDTO{}, nil, fmt.Errorf("unmarshal response: %w", err)
+	}
+
+	tokens := make([]domain.Token, 0, len(respEntity.Assets))
+	for _, token := range respEntity.Assets {
+		balance, err := strconv.ParseFloat(respEntity.NetWorthUSD, 64)
+		if err != nil {
+			return domain.AccountDTO{}, nil, fmt.Errorf("parse float: %w", err)
+		}
+
+		balanceUSD, err := strconv.ParseFloat(respEntity.NetWorthUSD, 64)
+		if err != nil {
+			return domain.AccountDTO{}, nil, fmt.Errorf("parse float: %w", err)
+		}
+
+		buffer, err := domain.NewToken(domain.TokenDTO{
+			Name:       token.Name,
+			Symbol:     token.Symbol,
+			LogoURL:    token.Logo,
+			Balance:    balance,
+			BalanceUSD: balanceUSD,
+		})
+		if err != nil {
+			return domain.AccountDTO{}, nil, fmt.Errorf("new domain token: %w", err)
+		}
+
+		tokens = append(tokens, buffer)
+	}
+
+	usd, err := strconv.ParseFloat(respEntity.NetWorthUSD, 64)
+	if err != nil {
+		return domain.AccountDTO{}, nil, fmt.Errorf("parse float: %w", err)
 	}
 
 	return domain.AccountDTO{
 		Address:     respEntity.Address,
 		Type:        respEntity.Type,
-		NetWorthUSD: respEntity.NetWorthUSD,
+		NetWorthUSD: usd,
 		WalletAge:   respEntity.WalletAgeDays,
 		UpdatedAt:   respEntity.UpdatedAt,
-	}, nil
+	}, tokens, nil
 }

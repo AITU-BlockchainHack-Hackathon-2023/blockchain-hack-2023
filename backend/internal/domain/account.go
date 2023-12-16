@@ -12,8 +12,8 @@ type Account struct {
 	NetWorthUSD  float64
 	UpdatedAt    time.Time
 	WalletAge    int
-	transactions []Transaction
-	tokens       []Token
+	Transactions []Transaction 
+	Tokens       []Token 
 }
 
 func NewAccount(
@@ -31,8 +31,8 @@ func NewAccount(
 		UpdatedAt:    dto.UpdatedAt,
 		NetWorthUSD:  dto.NetWorthUSD,
 		WalletAge:    dto.WalletAge,
-		transactions: transactions,
-		tokens:       tokens,
+		Transactions: transactions,
+		Tokens:       tokens,
 	}, nil
 }
 

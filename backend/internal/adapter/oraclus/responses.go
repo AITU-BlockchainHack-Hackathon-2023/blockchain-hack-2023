@@ -16,7 +16,6 @@ type Asset struct {
 	Balance         string   `json:"balance"`
 	BalanceRaw      string   `json:"balance_raw"`
 	BalanceUSD      string   `json:"balance_usd"`
-	AssetWeight     int      `json:"asset_weight"`
 }
 
 type Token struct {
@@ -42,7 +41,7 @@ type ResponseEntity struct {
 	LabelName     string    `json:"label_name"`
 	NameTag       string    `json:"name_tag"`
 	Domains       []string  `json:"domains"`
-	NetWorthUSD   float64   `json:"net_worth_usd"`
+	NetWorthUSD   string    `json:"net_worth_usd"`
 	Assets        []Asset   `json:"assets"`
 	FirstIn       time.Time `json:"first_in"`
 	FirstOut      time.Time `json:"first_out"`

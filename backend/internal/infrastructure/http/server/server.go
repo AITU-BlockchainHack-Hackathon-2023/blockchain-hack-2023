@@ -14,6 +14,6 @@ func New(cfg Config) (*http.Server, error) {
 	return &http.Server{
 		Addr:              cfg.Address(),
 		ReadHeaderTimeout: time.Minute,
-		Handler:           cfg.handler,
+		Handler:           cfg.Handler,
 	}, nil
 }
