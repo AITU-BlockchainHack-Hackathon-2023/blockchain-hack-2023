@@ -49,7 +49,6 @@ func (l *Logger) configureLogger() zap.Config {
 		loggerConfig.DisableStacktrace = true
 	}
 
-	// User friendly field names
 	loggerConfig.EncoderConfig.LevelKey = "level"
 	loggerConfig.EncoderConfig.NameKey = "module"
 	loggerConfig.EncoderConfig.MessageKey = "msg"
