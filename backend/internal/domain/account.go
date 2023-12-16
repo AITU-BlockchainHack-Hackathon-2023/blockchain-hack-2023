@@ -3,12 +3,15 @@ package domain
 import (
 	"errors"
 	"fmt"
+	"time"
 )
 
 type Account struct {
 	Address      string
 	Type         string
 	NetWorthUSD  float64
+	UpdatedAt    time.Time
+	WalletAge    int
 	transactions []Transaction
 	tokens       []Token
 }
@@ -25,7 +28,9 @@ func NewAccount(
 	return Account{
 		Address:      dto.Address,
 		Type:         dto.Type,
+		UpdatedAt:    dto.UpdatedAt,
 		NetWorthUSD:  dto.NetWorthUSD,
+		WalletAge:    dto.WalletAge,
 		transactions: transactions,
 		tokens:       tokens,
 	}, nil
@@ -35,6 +40,8 @@ type AccountDTO struct {
 	Address     string
 	Type        string
 	NetWorthUSD float64
+	WalletAge   int
+	UpdatedAt   time.Time
 }
 
 func (d AccountDTO) Validate() error {
