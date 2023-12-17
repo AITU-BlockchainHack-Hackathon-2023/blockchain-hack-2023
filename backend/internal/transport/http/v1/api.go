@@ -62,6 +62,8 @@ func (a Api) getAccountInfo(c echo.Context) error {
 
 	a.logger.Info(
 		"success get account info request",
+		zap.String("address", address),
+		zap.String("blockchain", blockchain),
 	)
 	return c.JSON(http.StatusOK, mapper.ToResponse())
 }
