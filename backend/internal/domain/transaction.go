@@ -10,10 +10,10 @@ type Transaction struct {
 	Date time.Time
 	With string // `with` this address  transaction was provided
 
-	// Sended is a boolean flag indicating the direction of the transaction.
+	// IsSender is a boolean flag indicating the direction of the transaction.
 	// `true` means the transaction is initiated "from" the user,
 	// `false` implies the transaction is directed "to" the user.
-	Sended   bool
+	IsSender bool
 	Hash     string
 	USDPrice float64
 }
@@ -29,7 +29,7 @@ func NewTransaction(dto TransactionDTO) (Transaction, error) {
 type TransactionDTO struct {
 	Date     time.Time
 	With     string
-	Sended   bool
+	IsSender bool
 	Hash     string
 	USDPrice float64
 }
