@@ -8,7 +8,7 @@ import (
 
 type Transaction struct {
 	Date time.Time
-	With string // `with` this address  transaction was provided
+	With string // `with` this address transaction was provided
 
 	// IsSender is a boolean flag indicating the direction of the transaction.
 	// `true` means the transaction is initiated "from" the user,

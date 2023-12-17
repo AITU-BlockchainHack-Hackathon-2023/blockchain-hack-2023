@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1/get/account"
-	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/graph/account/get"
+	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/get"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 )

@@ -55,18 +55,18 @@ func New(
 	}, nil
 }
 
-func (c Query) Execute(
+func (q Query) Execute(
 	ctx context.Context,
 	blockchain,
 	address string,
 	limit uint,
 ) (domain.Account, error) {
-	transactions, err := c.txGetter.GetTransactions(ctx, address, limit)
+	transactions, err := q.txGetter.GetTransactions(ctx, address, limit)
 	if err != nil {
 		return domain.Account{}, fmt.Errorf("get transactions: %w", err)
 	}
 
-	accountDTO, tokens, err := c.accountGetter.GetAddressInfo(ctx, blockchain, address)
+	accountDTO, tokens, err := q.accountGetter.GetAddressInfo(ctx, blockchain, address)
 	if err != nil {
 		return domain.Account{}, fmt.Errorf("get address info: %w", err)
 	}

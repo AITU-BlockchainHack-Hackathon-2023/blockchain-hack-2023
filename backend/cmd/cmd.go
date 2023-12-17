@@ -10,7 +10,7 @@ import (
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/infrastructure/http/server"
 	localZap "github.com/Levap123/blockchain-hack-2023/backend/internal/infrastructure/logger/zap"
 	v1 "github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1"
-	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/graph/account/get"
+	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/get"
 	"go.uber.org/zap"
 )
 
