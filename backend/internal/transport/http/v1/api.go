@@ -3,6 +3,7 @@ package v1
 import (
 	"net/http"
 
+	"github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1/get/account"
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/graph/account/get"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
@@ -30,6 +31,8 @@ func (a Api) Register() http.Handler {
 	return e
 }
 
+const defaultBlockchain = "ethereum"
+
 func (a Api) getAccountInfo(c echo.Context) error {
 	address := c.Param("address")
 	if address == "" {
@@ -38,10 +41,10 @@ func (a Api) getAccountInfo(c echo.Context) error {
 
 	blockchain := c.QueryParam("blockchain")
 	if blockchain == "" {
-		return echo.NewHTTPError(echo.ErrBadRequest.Code, "blockchain is required")
+		blockchain = defaultBlockchain
 	}
 
-	account, err := a.getAccountInfoQuery.Execute(
+	dmAccount, err := a.getAccountInfoQuery.Execute(
 		c.Request().Context(),
 		blockchain,
 		address,
@@ -55,8 +58,10 @@ func (a Api) getAccountInfo(c echo.Context) error {
 		return echo.NewHTTPError(echo.ErrInternalServerError.Code, err.Error())
 	}
 
+	mapper := account.NewApiMapper(dmAccount)
+
 	a.logger.Info(
 		"success get account info request",
 	)
-	return c.JSON(http.StatusOK, account)
+	return c.JSON(http.StatusOK, mapper.ToResponse())
 }

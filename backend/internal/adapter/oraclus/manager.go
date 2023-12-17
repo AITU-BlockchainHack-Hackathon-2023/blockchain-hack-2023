@@ -76,12 +76,12 @@ func (m Manager) GetAddressInfo(
 
 	tokens := make([]domain.Token, 0, len(respEntity.Assets))
 	for _, token := range respEntity.Assets {
-		balance, err := strconv.ParseFloat(respEntity.NetWorthUSD, 64)
+		balance, err := strconv.ParseFloat(token.Balance, 64)
 		if err != nil {
 			return domain.AccountDTO{}, nil, fmt.Errorf("parse float: %w", err)
 		}
 
-		balanceUSD, err := strconv.ParseFloat(respEntity.NetWorthUSD, 64)
+		balanceUSD, err := strconv.ParseFloat(token.BalanceUSD, 64)
 		if err != nil {
 			return domain.AccountDTO{}, nil, fmt.Errorf("parse float: %w", err)
 		}

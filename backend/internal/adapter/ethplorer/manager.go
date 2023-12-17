@@ -115,7 +115,7 @@ func (m Manager) prepareResponse(transactions []Transaction, userAddress string)
 		domainTrans, err := domain.NewTransaction(domain.TransactionDTO{
 			Date:     time.Unix(localTrans.Timestamp, 0),
 			With:     withAddress,
-			Sended:   localTrans.From == userAddress,
+			IsSender: localTrans.From == userAddress,
 			Hash:     localTrans.Hash,
 			USDPrice: localTrans.UsdPrice,
 		})
