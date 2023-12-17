@@ -1,1 +1,11 @@
-logs
+.vscode/
+.idea/
+.DS_Store
+_msgpgen
+*.test
+coverage.out
+bin/
+logs/
+config.yml
+backend.jsonl
+/.env
