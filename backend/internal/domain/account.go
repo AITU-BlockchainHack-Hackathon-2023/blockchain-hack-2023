@@ -12,8 +12,8 @@ type Account struct {
 	NetWorthUSD  float64
 	UpdatedAt    time.Time
 	WalletAge    int
-	Transactions []Transaction 
-	Tokens       []Token 
+	Transactions []Transaction
+	Tokens       []Token
 }
 
 func NewAccount(
@@ -37,11 +37,12 @@ func NewAccount(
 }
 
 type AccountDTO struct {
-	Address     string
-	Type        string
-	NetWorthUSD float64
-	WalletAge   int
-	UpdatedAt   time.Time
+	Address           string
+	Type              string
+	NetWorthUSD       float64
+	WalletAge         int
+	UpdatedAt         time.Time
+	TransactionHashes []string
 }
 
 func (d AccountDTO) Validate() error {

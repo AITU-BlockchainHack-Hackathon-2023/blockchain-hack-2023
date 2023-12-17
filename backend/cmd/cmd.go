@@ -16,8 +16,12 @@ import (
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/infrastructure/http/server"
 	localZap "github.com/Levap123/blockchain-hack-2023/backend/internal/infrastructure/logger/zap"
 	v1 "github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1"
-	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/get"
+	v2 "github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v2"
+
+	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/ethereum/get"
+	getAny "github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/get"
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/transaction/group"
+	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 )
 
@@ -67,7 +71,7 @@ func main() {
 		)
 	}
 
-	api := v1.New(getAccountQuery, groupTransactionsQuery, logger.Named("V1API"))
+	apiv1 := v1.New(getAccountQuery, groupTransactionsQuery, logger.Named("V1API"))
 	if err != nil {
 		logger.Fatal(
 			"new get account query",
@@ -75,11 +79,25 @@ func main() {
 		)
 	}
 
+	getAccountQueryAny, err := getAny.New(oraclusManager, oraclusManager, logger.Named("GetAccountQueryAny"))
+	if err != nil {
+		logger.Fatal(
+			"new get account query v2",
+			zap.Error(err),
+		)
+	}
+
+	apiv2 := v2.New(getAccountQueryAny, nil, logger.Named("V2API"))
+
+	echo := echo.New()
+	apiv1.Register(echo)
+	apiv2.Register(echo)
+
 	srv, err := server.New(server.Config{
 		Host:              "0.0.0.0",
 		Port:              "8080",
 		ReadHeaderTimeout: time.Second * 30,
-		Handler:           api.Register(),
+		Handler:           echo,
 	})
 	if err != nil {
 		logger.Fatal(

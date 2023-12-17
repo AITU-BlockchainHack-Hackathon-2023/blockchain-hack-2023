@@ -1,11 +1,11 @@
-package v2
+package v1
 
 import (
 	"net/http"
 
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1/get/account"
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1/get/transaction/group"
-	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/ethereum/get"
+	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/get"
 	groupTransactions "github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/transaction/group"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
@@ -29,10 +29,12 @@ func New(
 	}
 }
 
-func (a Api) Register(e *echo.Echo) {
-	v1 := e.Group("/api/v1")
-	v1.GET("/graph/:address", a.getAccountInfo)
-	v1.GET("/transaction/:address/group", a.groupTransactions)
+func (a Api) Register(e *echo.Echo) http.Handler {
+	v2 := e.Group("/api/v2")
+	v2.GET("/graph/:address", a.getAccountInfo)
+	v2.GET("/transaction/:address/group", a.groupTransactions)
+
+	return e
 }
 
 const defaultBlockchain = "ethereum"
@@ -43,9 +45,14 @@ func (a Api) getAccountInfo(c echo.Context) error {
 		return echo.ErrNotFound
 	}
 
+	blockchain := c.QueryParam("blockchain")
+	if blockchain == "" {
+		blockchain = defaultBlockchain
+	}
+
 	dmAccount, err := a.getAccountInfoQuery.Execute(
 		c.Request().Context(),
-		defaultBlockchain,
+		blockchain,
 		address,
 		10,
 	)
@@ -63,7 +70,7 @@ func (a Api) getAccountInfo(c echo.Context) error {
 	a.logger.Info(
 		"success get account info request",
 		zap.String("address", address),
-		zap.String("blockchain", defaultBlockchain),
+		zap.String("blockchain", blockchain),
 	)
 	return c.JSON(http.StatusOK, resp)
 }

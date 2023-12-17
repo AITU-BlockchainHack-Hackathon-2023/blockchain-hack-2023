@@ -17,24 +17,23 @@ type AccountGetter interface {
 	) (domain.AccountDTO, []domain.Token, error)
 }
 
-type TransactionGetter interface {
-	GetTransactionByHash(
+type TransactionsGetter interface {
+	GetTransactions(
 		ctx context.Context,
-		blockchain,
-		address,
-		transactionHash string,
-	) (domain.Transaction, error)
+		address string,
+		limit uint,
+	) ([]domain.Transaction, error)
 }
 
 type Query struct {
 	accountGetter AccountGetter
-	txGetter      TransactionGetter
+	txGetter      TransactionsGetter
 	logger        *zap.Logger
 }
 
 func New(
 	accountGetter AccountGetter,
-	txGetter TransactionGetter,
+	txGetter TransactionsGetter,
 	logger *zap.Logger,
 ) (*Query, error) {
 	if accountGetter == nil {
@@ -62,24 +61,14 @@ func (q Query) Execute(
 	address string,
 	limit uint,
 ) (domain.Account, error) {
+	transactions, err := q.txGetter.GetTransactions(ctx, address, limit)
+	if err != nil {
+		return domain.Account{}, fmt.Errorf("get transactions: %w", err)
+	}
+
 	accountDTO, tokens, err := q.accountGetter.GetAddressInfo(ctx, blockchain, address)
 	if err != nil {
 		return domain.Account{}, fmt.Errorf("get address info: %w", err)
-	}
-
-	var transactions []domain.Transaction
-	for _, txHash := range accountDTO.TransactionHashes {
-		tx, err := q.txGetter.GetTransactionByHash(
-			ctx,
-			blockchain,
-			address,
-			txHash,
-		)
-		if err != nil {
-			return domain.Account{}, fmt.Errorf("get transaction by hash: %w", err)
-		}
-
-		transactions = append(transactions, tx)
 	}
 
 	account, err := domain.NewAccount(accountDTO, transactions, tokens)
