@@ -22,6 +22,7 @@ import (
 	getAny "github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/get"
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/transaction/group"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"go.uber.org/zap"
 )
 
@@ -90,6 +91,7 @@ func main() {
 	apiv2 := v2.New(getAccountQueryAny, nil, logger.Named("V2API"))
 
 	echo := echo.New()
+	echo.Use(middleware.CORS())
 	apiv1.Register(echo)
 	apiv2.Register(echo)
 
