@@ -8,4 +8,5 @@ type TransactionGroup struct {
 	SendSum      float64
 	ReceiveCount uint
 	SendCount    uint
+	Transactions []Transaction
 }

@@ -79,6 +79,8 @@ func (q Query) Execute(
 			transactionGroup.ReceiveCount++
 		}
 
+		transactionGroup.Transactions = append(transactionGroup.Transactions, transaction)
+
 		dayGroup[day] = transactionGroup
 	}
 

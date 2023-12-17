@@ -18,7 +18,20 @@ func (m ApiMapper) ToResponse() []Response {
 	response := make([]Response, 0, len(dmTransactionGroups))
 
 	for _, dmTransactionGroup := range dmTransactionGroups {
-		response = append(response, Response(dmTransactionGroup))
+		var respTransactions []Transaction
+		for _, transaction := range dmTransactionGroup.Transactions {
+			respTransactions = append(respTransactions, Transaction(transaction))
+		}
+
+		response = append(response, Response{
+			Day:          dmTransactionGroup.Day,
+			ReceiveSum:   dmTransactionGroup.ReceiveSum,
+			SendSum:      dmTransactionGroup.SendSum,
+			ReceiveCount: dmTransactionGroup.ReceiveCount,
+			SendCount:    dmTransactionGroup.SendCount,
+			Transactions: respTransactions,
+		})
+
 	}
 
 	return response
