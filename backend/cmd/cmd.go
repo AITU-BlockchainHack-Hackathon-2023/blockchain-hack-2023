@@ -2,6 +2,12 @@ package main
 
 import (
 	"context"
+	"errors"
+	"fmt"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/adapter/ethplorer"
@@ -82,10 +88,49 @@ func main() {
 		)
 	}
 
-	if err := srv.ListenAndServe(); err != nil {
+	go func() {
+		if err := srv.ListenAndServe(); err != nil {
+			if errors.Is(err, http.ErrServerClosed) {
+				logger.Info("http server is closed")
+
+				return
+			}
+
+			logger.Error("listen and serve", zap.Error(err))
+
+			return
+		}
+
+	}()
+
+	logger.Info("service started", zap.String("address", srv.Addr))
+
+	defer func() {
+		// Application should flush all buffered log entries.
+		if err := logger.Sync(); err != nil {
+			logger.Error("logger sync", zap.Error(err))
+
+			return
+		}
+	}()
+
+	// Wait for interrupt signal to gracefully shutdown the service with a timeout of 10 seconds.
+	// Use a buffered channel to avoid missing signals as recommended for signal.Notify
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
+	<-sigs
+
+	logger.Info("service shutdown requested")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	if err := srv.Shutdown(ctx); err != nil && !errors.Is(err, context.Canceled) {
 		logger.Fatal(
-			"listen and server",
-			zap.Error(err),
+			"shutdown err",
+			zap.Error(fmt.Errorf("health/readiness probes shutdown: %w", err)),
 		)
 	}
+
 }
