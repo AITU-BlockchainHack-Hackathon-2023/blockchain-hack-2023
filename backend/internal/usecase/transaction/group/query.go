@@ -3,6 +3,9 @@ package group
 import (
 	"context"
 	"errors"
+	"fmt"
+	"sort"
+	"time"
 
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/domain"
 	"go.uber.org/zap"
@@ -48,5 +51,45 @@ func (q Query) Execute(
 	[]domain.TransactionGroup,
 	error,
 ) {
-	return nil, nil
+	transactions, err := q.transactionsGetter.GetTransactions(ctx, address, 10_000)
+	if err != nil {
+		return nil, fmt.Errorf("get transactions: %w", err)
+	}
+
+	dayGroup := make(map[time.Time]domain.TransactionGroup)
+
+	for _, transaction := range transactions {
+		day := time.Date(
+			transaction.Date.Year(),
+			transaction.Date.Month(),
+			transaction.Date.Day(),
+			0, 0, 0, 0,
+			transaction.Date.Location())
+
+		transactionGroup, found := dayGroup[day]
+		if !found {
+			transactionGroup = domain.TransactionGroup{Day: day}
+		}
+
+		if transaction.IsSender {
+			transactionGroup.SendSum += transaction.USDPrice
+			transactionGroup.SendCount++
+		} else {
+			transactionGroup.ReceiveSum += transaction.USDPrice
+			transactionGroup.ReceiveCount++
+		}
+
+		dayGroup[day] = transactionGroup
+	}
+
+	transactionGroups := make([]domain.TransactionGroup, 0, len(dayGroup))
+	for _, v := range dayGroup {
+		transactionGroups = append(transactionGroups, v)
+	}
+
+	sort.Slice(transactionGroups, func(i, j int) bool {
+		return transactionGroups[i].Day.Unix() < transactionGroups[j].Day.Unix()
+	})
+
+	return transactionGroups, nil
 }
