@@ -11,6 +11,7 @@ import (
 	localZap "github.com/Levap123/blockchain-hack-2023/backend/internal/infrastructure/logger/zap"
 	v1 "github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1"
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/get"
+	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/transaction/group"
 	"go.uber.org/zap"
 )
 
@@ -52,7 +53,15 @@ func main() {
 		)
 	}
 
-	api := v1.New(getAccountQuery, logger.Named("V1API"))
+	groupTransactionsQuery, err := group.New(ethplorerManager, logger.Named("GroupTransactionQuery"))
+	if err != nil {
+		logger.Fatal(
+			"new group transaction query",
+			zap.Error(err),
+		)
+	}
+
+	api := v1.New(getAccountQuery, groupTransactionsQuery, logger.Named("V1API"))
 	if err != nil {
 		logger.Fatal(
 			"new get account query",

@@ -4,21 +4,28 @@ import (
 	"net/http"
 
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1/get/account"
+	"github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1/get/transaction/group"
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/get"
+	groupTransactions "github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/transaction/group"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 )
 
 type Api struct {
-	getAccountInfoQuery *get.Query
-
-	logger *zap.Logger
+	getAccountInfoQuery    *get.Query
+	groupTransactionsQuery *groupTransactions.Query
+	logger                 *zap.Logger
 }
 
-func New(getAccountInfo *get.Query, logger *zap.Logger) *Api {
+func New(
+	getAccountInfo *get.Query,
+	groupTransactionsQuery *groupTransactions.Query,
+	logger *zap.Logger,
+) *Api {
 	return &Api{
-		getAccountInfoQuery: getAccountInfo,
-		logger:              logger,
+		getAccountInfoQuery:    getAccountInfo,
+		groupTransactionsQuery: groupTransactionsQuery,
+		logger:                 logger,
 	}
 }
 
@@ -27,6 +34,7 @@ func (a Api) Register() http.Handler {
 
 	v1 := e.Group("/api/v1")
 	v1.GET("/graph/:address", a.getAccountInfo)
+	v1.GET("/transaction/:address/group", a.groupTransactions)
 
 	return e
 }
@@ -58,12 +66,38 @@ func (a Api) getAccountInfo(c echo.Context) error {
 		return echo.NewHTTPError(echo.ErrInternalServerError.Code, err.Error())
 	}
 
-	mapper := account.NewApiMapper(dmAccount)
+	resp := account.NewApiMapper(dmAccount).ToResponse()
 
 	a.logger.Info(
 		"success get account info request",
 		zap.String("address", address),
 		zap.String("blockchain", blockchain),
 	)
-	return c.JSON(http.StatusOK, mapper.ToResponse())
+	return c.JSON(http.StatusOK, resp)
+}
+
+func (a Api) groupTransactions(c echo.Context) error {
+	address := c.Param("address")
+	if address == "" {
+		return echo.ErrNotFound
+	}
+
+	blockchain := c.QueryParam("blockchain")
+	if blockchain == "" {
+		blockchain = defaultBlockchain
+	}
+
+	transactionGroup, err := a.groupTransactionsQuery.Execute(c.Request().Context(), address, blockchain)
+	if err != nil {
+		a.logger.Error(
+			"error in get transaction group query",
+			zap.Error(err),
+			zap.String("address", address),
+		)
+		return echo.NewHTTPError(echo.ErrInternalServerError.Code, err.Error())
+	}
+
+	resp := group.NewApiMapper(transactionGroup).ToResponse()
+
+	return c.JSON(http.StatusOK, resp)
 }
