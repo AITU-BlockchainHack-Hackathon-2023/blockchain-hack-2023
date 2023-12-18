@@ -1,0 +1,26 @@
+.TabChip {
+    padding: 4px 12px;
+    /*background-color: #d8d8d8;*/
+    background-color: var(--color-element-secondary);
+    /*border: 1px solid grey;*/
+    font-size: 15px;
+    font-weight: 600;
+    margin-right: 5px;
+    cursor: pointer;
+    border-radius: 100px;
+
+    /*border: 1px solid rgba(30, 38, 47, 0.06);*/
+    box-shadow: 2px 4px 4px rgba(30, 38, 47, 0.02);
+    color: var(--color-element-secondary-text);
+}
+.TabChip:hover {
+    background-color: var(--color-element-secondary-hover);
+}
+.TabChip--active {
+    background-color: var(--color-active) !important;
+    border: none;
+    color: var(--color-active-text);
+}
+.TabChip:last-child {
+    margin-right: 0;
+}

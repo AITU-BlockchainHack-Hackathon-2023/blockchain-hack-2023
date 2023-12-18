@@ -1,0 +1,19 @@
+.TagsGroup {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    /*margin-bottom: 18px;*/
+}
+.TagsGroup__item {
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    background-color: #003c94;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    color: white;
+    cursor: pointer;
+}
+.TagsGroup__item:last-child {
+    margin-right: 0;
+}

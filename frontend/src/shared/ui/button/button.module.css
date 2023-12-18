@@ -1,0 +1,110 @@
+:root {
+    --font-size-desktop: 15px;
+    --font-size-tablet: 14px;
+    --font-size-mobile: 13px;
+}
+.btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-top: 10px; */
+    /* margin-bottom: 10px; */
+    cursor: pointer;
+    font-weight: 600;
+}
+.btn svg {
+    margin-right: 10px;
+}
+.btn a {
+    color: var(--color-text);
+    text-decoration: none;
+}
+.btn:hover {
+    opacity: 95%;
+}
+.btn--main {
+    background-color: var(--color-main);
+    color:  var(--color-main-text);
+}
+.btn--main svg path {
+    stroke: #cbcbcb;
+}
+.btn--second {
+    background-color: var(--color-second);
+    color: var(--color-main-text);
+}
+.btn--control {
+    background-color:  var(--color-main);
+    border-radius: 40px;
+    color: var(--color-main-text);
+    font-weight: 600;
+}
+.btn--landing {
+    background-color: var(--color-main-text);
+    color: #1c1c1c;
+    font-weight: 600;
+}
+.btn--small {
+    font-weight: 600;
+    font-size: var(--font-size-desktop);
+    padding: 10px 15px;
+}
+@media (max-width:960px){
+    .btn--small {
+        font-weight: 600;
+        font-size: var(--font-size-tablet);
+        padding: 10px 15px;
+    }
+}
+
+@media (max-width:600px){
+    .btn--small {
+        font-weight: 600;
+        font-size: var(--font-size-mobile);
+        padding: 10px 15px;
+    }
+}
+.btn--outline {
+    background: none;
+    border: 1px solid var(--color-main-active);
+    color: var(--color-main-active);
+}
+.btn--cancel {
+    background: var(--color-cancel);
+    color: #1c1c1c;
+}
+.btn--outline-inverse {
+    background: none;
+    border: 1px solid var(--color-second-text);
+    color: var(--color-second-text);
+}
+.btn--outline svg path {
+    fill: var(--color-main);
+}
+.btn--big {
+    /*font-weight: 800;*/
+}
+.btn--badge {
+    position: relative;
+}
+
+.btn--bglight {
+    box-shadow: rgba(255, 255, 255, 0.26) 0px 5px 15px;
+}
+.btn--yellow {
+    background-color: #eb6900;
+    color: white;
+}
+.btn--outline-white {
+    background: none;
+    border: 1px solid white;
+    color: white;
+}
+.btn--disabled {
+    opacity: .7;
+}

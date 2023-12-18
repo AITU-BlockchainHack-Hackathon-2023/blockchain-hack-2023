@@ -1,0 +1,15 @@
+.appFooter {
+    padding: 15px 0;
+    background-color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid var(--color-devider);
+}
+.appFooter__text {
+    text-align: center;
+}
+
+.appFooter__link {
+    color: #0a182c;
+}
