@@ -1,13 +1,11 @@
-package ethplorer
+package blockchair
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 	"time"
 
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/domain"
@@ -15,10 +13,10 @@ import (
 	"go.uber.org/zap"
 )
 
-const baseURL = "https://api.ethplorer.io"
+const baseURL = "https://api.blockchair.com"
 
 var (
-	getTransactionsURL = baseURL + "/getAddressTransactions/%s" // blockchain, address
+	getTransactionsURL = baseURL + "/%s/transactions" // blockchain
 )
 
 type Manager struct {
@@ -44,38 +42,36 @@ func New(
 		c:      c,
 		logger: logger,
 
-		apiKey: "gunng6075LcTv51",
+		apiKey: "M___hackathonp8smby_____________",
 	}, nil
 }
 
-func (m Manager) GetTransactions(
+func (m Manager) GetTransactionByHash(
 	ctx context.Context,
-	address string,
-	limit uint,
-) ([]domain.Transaction, error) {
-
+	blockchain,
+	address,
+	transactionHash string,
+) (domain.Transaction, error) {
 	u, err := url.Parse(fmt.Sprintf(getTransactionsURL, address))
 	if err != nil {
-		return nil, fmt.Errorf("parse URL: %w", err)
+		return domain.Transaction{}, fmt.Errorf("parse URL: %w", err)
 	}
 
 	params := url.Values{}
-	params.Add("apiKey", m.apiKey)
-	if limit != 0 {
-		params.Add("limit", strconv.Itoa(int(limit)))
-	}
+	params.Add("key", m.apiKey)
+	params.Add("q", fmt.Sprintf("hash(%s)", transactionHash))
 
 	u.RawQuery = params.Encode()
 	requestURL := u.String()
 
 	request, err := http.NewRequest(http.MethodGet, requestURL, nil)
 	if err != nil {
-		return nil, fmt.Errorf("new request: %w", err)
+		return domain.Transaction{}, fmt.Errorf("new request: %w", err)
 	}
 
 	resp, err := m.c.Do(request)
 	if err != nil {
-		return nil, fmt.Errorf("make request: %w", err)
+		return domain.Transaction{}, fmt.Errorf("make request: %w", err)
 	}
 	defer resp.Body.Close()
 
@@ -85,21 +81,10 @@ func (m Manager) GetTransactions(
 			zap.Int("status_code", resp.StatusCode),
 			zap.String("request_url", requestURL),
 		)
-		return nil, errors.New("error in request")
+		return domain.Transaction{}, errors.New("error in request")
 	}
 
-	var respEntity []Transaction
-
-	if err := json.NewDecoder(resp.Body).Decode(&respEntity); err != nil {
-		return nil, fmt.Errorf("unmarshal response: %w", err)
-	}
-
-	dmTransactions, err := m.prepareResponse(respEntity, address)
-	if err != nil {
-		return nil, fmt.Errorf("prepare response: %w", err)
-	}
-
-	return dmTransactions, nil
+	return domain.Transaction{}, nil
 }
 
 func (m Manager) prepareResponse(transactions []Transaction, userAddress string) ([]domain.Transaction, error) {

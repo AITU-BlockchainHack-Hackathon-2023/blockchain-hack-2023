@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"strconv"
 
@@ -144,10 +145,16 @@ func (m Manager) GetTransactionByHash(
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return domain.Transaction{}, fmt.Errorf("read resp body: %w", err)
+		}
+
 		m.logger.Error(
 			"error in making request",
 			zap.Int("status_code", resp.StatusCode),
 			zap.String("request_url", requestURL),
+			zap.String("body", string(body)),
 		)
 		return domain.Transaction{}, errors.New("error in request")
 	}
@@ -170,7 +177,7 @@ func (m Manager) GetTransactionByHash(
 	}
 
 	domainTransaction, err := domain.NewTransaction(domain.TransactionDTO{
-		Date:     respEntity.Time,
+		Date:     respEntity.Time.Time,
 		With:     withAddress,
 		IsSender: transfer.Sender == address,
 		Hash:     transactionHash,

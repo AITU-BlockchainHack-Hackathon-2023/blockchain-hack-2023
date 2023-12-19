@@ -81,7 +81,7 @@ type Transfer struct {
 type GetTransactionResponseEntity struct {
 	Failed        bool       `json:"failed"`
 	BlockID       int        `json:"block_id"`
-	Time          time.Time  `json:"time"`
+	Time          CustomTime `json:"time"`
 	Fee           string     `json:"fee"`
 	FeeDecimals   int        `json:"fee_decimals"`
 	FeeSymbol     string     `json:"fee_symbol"`
@@ -91,4 +91,24 @@ type GetTransactionResponseEntity struct {
 	FeeUSD        float64    `json:"fee_usd"`
 	Transfers     []Transfer `json:"transfers"`
 	FeeNormalized float64    `json:"fee_normalized"`
+}
+
+type CustomTime struct {
+	time.Time
+}
+
+func (ct *CustomTime) UnmarshalJSON(b []byte) error {
+	// Trim the quotes from the JSON string
+	strTime := string(b)
+	strTime = strTime[1 : len(strTime)-1]
+
+	// Define the layout of your time string
+	const layout = "2006-01-02T15:04:05"
+	parsedTime, err := time.Parse(layout, strTime)
+	if err != nil {
+		return err
+	}
+
+	ct.Time = parsedTime
+	return nil
 }
