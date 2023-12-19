@@ -10,13 +10,13 @@
 
 ## Team name
 
-[Your team name]
+Koresha
 
 ## Participants
 
-* Full name: [Full name]. Email: [Email]
-* Full name: [Full name]. Email: [Email]
-* Full name: [Full name]. Email: [Email]
+* Full name: Ayan Ualiev. Email: [Email]
+* Full name: Pavel Kim. Email: 212397@astanait.edu.kz
+
 
 ## Abstract
 
