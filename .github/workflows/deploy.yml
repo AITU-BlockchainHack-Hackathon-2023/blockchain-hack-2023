@@ -15,10 +15,10 @@ jobs:
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.ID_RSA }}" > ~/.ssh/ssh-ed25519
-        chmod 600 ~/.ssh/ssh-ed25519
+        echo "${{ secrets.ID_RSA }}" > ~/.ssh/ssh_ed25519
+        chmod 600 ~/.ssh/ssh_ed25519
         ssh-keyscan -H 159.223.225.226 >> ~/.ssh/known_hosts
 
     - name: Deploy to Server
       run: |
-        ssh root@159.223.225.226 'cd /path/to/your/project && git pull && make run_backend'
+        ssh -i ~/.ssh/ssh_ed25519 root@159.223.225.226 'cd blockchain-hack-2023 && git pull && make run_backend'
