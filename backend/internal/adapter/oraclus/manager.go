@@ -81,6 +81,10 @@ func (m Manager) GetAddressInfo(
 
 	var transactionHashes []string
 	for _, transaction := range respEntity.Transactions {
+		if transaction.Transaction == "" {
+			continue
+		}
+
 		transactionHashes = append(transactionHashes, transaction.Transaction)
 	}
 
@@ -176,6 +180,7 @@ func (m Manager) GetTransactionByHash(
 		withAddress = transfer.Sender
 	}
 
+	fmt.Println(transactionHash)
 	domainTransaction, err := domain.NewTransaction(domain.TransactionDTO{
 		Date:     respEntity.Time.Time,
 		With:     withAddress,
@@ -184,7 +189,7 @@ func (m Manager) GetTransactionByHash(
 		USDPrice: transfer.ValueUSD,
 	})
 	if err != nil {
-		return domain.Transaction{}, fmt.Errorf("new domain transaction")
+		return domain.Transaction{}, fmt.Errorf("new domain transaction: %w", err)
 	}
 
 	return domainTransaction, nil

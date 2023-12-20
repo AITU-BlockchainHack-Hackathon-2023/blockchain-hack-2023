@@ -39,10 +39,6 @@ func (d TransactionDTO) Validate() error {
 		return errors.New("date is zero")
 	}
 
-	if d.With == "" {
-		return errors.New("with is empty")
-	}
-
 	if d.Hash == "" {
 		return errors.New("hash is empty")
 	}
