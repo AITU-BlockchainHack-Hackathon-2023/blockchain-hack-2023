@@ -3,6 +3,7 @@ package v2
 import (
 	"net/http"
 
+	"github.com/Levap123/blockchain-hack-2023/backend/internal/domain"
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1/get/account"
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1/get/transaction/group"
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/ethereum/get"
@@ -79,14 +80,35 @@ func (a Api) groupTransactions(c echo.Context) error {
 		blockchain = defaultBlockchain
 	}
 
-	transactionGroup, err := a.groupTransactionsQuery.Execute(c.Request().Context(), address, blockchain)
-	if err != nil {
-		a.logger.Error(
-			"error in get transaction group query",
-			zap.Error(err),
-			zap.String("address", address),
-		)
-		return echo.NewHTTPError(echo.ErrInternalServerError.Code, err.Error())
+	filter := c.QueryParam("filter")
+	if filter == "" {
+		filter = "date"
+	}
+
+	var transactionGroup []domain.TransactionGroup
+	var err error
+	if filter == "with" {
+		transactionGroup, err = a.groupTransactionsQuery.ExecuteByWith(c.Request().Context(), address, blockchain)
+		if err != nil {
+			a.logger.Error(
+				"error in get transaction group query by with",
+				zap.Error(err),
+				zap.String("address", address),
+			)
+			return echo.NewHTTPError(echo.ErrInternalServerError.Code, err.Error())
+		}
+
+	} else {
+		transactionGroup, err = a.groupTransactionsQuery.ExecuteByDate(c.Request().Context(), address, blockchain)
+		if err != nil {
+			a.logger.Error(
+				"error in get transaction group query by date",
+				zap.Error(err),
+				zap.String("address", address),
+			)
+			return echo.NewHTTPError(echo.ErrInternalServerError.Code, err.Error())
+		}
+
 	}
 
 	resp := group.NewApiMapper(transactionGroup).ToResponse()

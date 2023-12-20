@@ -43,7 +43,7 @@ func New(
 	}, nil
 }
 
-func (q Query) Execute(
+func (q Query) ExecuteByDate(
 	ctx context.Context,
 	address,
 	blockchain string,
@@ -86,6 +86,59 @@ func (q Query) Execute(
 
 	transactionGroups := make([]domain.TransactionGroup, 0, len(dayGroup))
 	for _, v := range dayGroup {
+		transactionGroups = append(transactionGroups, v)
+	}
+
+	sort.Slice(transactionGroups, func(i, j int) bool {
+		return transactionGroups[i].Day.Unix() < transactionGroups[j].Day.Unix()
+	})
+
+	return transactionGroups, nil
+}
+
+func (q Query) ExecuteByWith(
+	ctx context.Context,
+	address,
+	blockchain string,
+) (
+	[]domain.TransactionGroup,
+	error,
+) {
+	transactions, err := q.transactionsGetter.GetTransactions(ctx, address, 10_000)
+	if err != nil {
+		return nil, fmt.Errorf("get transactions: %w", err)
+	}
+
+	withGroup := make(map[string]domain.TransactionGroup)
+
+	for _, transaction := range transactions {
+		day := time.Date(
+			transaction.Date.Year(),
+			transaction.Date.Month(),
+			transaction.Date.Day(),
+			0, 0, 0, 0,
+			transaction.Date.Location())
+
+		transactionGroup, found := withGroup[transaction.With]
+		if !found {
+			transactionGroup = domain.TransactionGroup{Day: day}
+		}
+
+		if transaction.IsSender {
+			transactionGroup.SendSum += transaction.USDPrice
+			transactionGroup.SendCount++
+		} else {
+			transactionGroup.ReceiveSum += transaction.USDPrice
+			transactionGroup.ReceiveCount++
+		}
+
+		transactionGroup.Transactions = append(transactionGroup.Transactions, transaction)
+
+		withGroup[transaction.With] = transactionGroup
+	}
+
+	transactionGroups := make([]domain.TransactionGroup, 0, len(withGroup))
+	for _, v := range withGroup {
 		transactionGroups = append(transactionGroups, v)
 	}
 
