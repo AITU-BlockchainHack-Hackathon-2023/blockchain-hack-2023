@@ -86,7 +86,7 @@ func (a Api) groupTransactions(c echo.Context) error {
 		blockchain = defaultBlockchain
 	}
 
-	transactionGroup, err := a.groupTransactionsQuery.Execute(c.Request().Context(), address, blockchain)
+	transactionGroup, err := a.groupTransactionsQuery.ExecuteByDate(c.Request().Context(), address, blockchain)
 	if err != nil {
 		a.logger.Error(
 			"error in get transaction group query",
