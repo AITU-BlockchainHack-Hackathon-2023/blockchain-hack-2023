@@ -1,0 +1,22 @@
+.block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.block--center {
+    align-items: center;
+}
+.block--centerY {
+    height: 100%;
+    justify-content: center;
+}
+.block--wrapper {
+    /*padding: 20px;*/
+    border-radius: 12px;
+    /*margin-top: 20px;*/
+    /*margin-bottom: 20px;*/
+    background: var(--color-block-bg);
+}
+.block--isRightCenter {
+    align-items: flex-end;
+}

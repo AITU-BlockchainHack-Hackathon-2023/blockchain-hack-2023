@@ -1,0 +1,13 @@
+.Portfolio {
+    position: absolute;
+    left: 20px;
+    top: 100px;
+    max-height: 85%;
+    overflow: auto;
+}
+.Portfolio__list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto;
+}

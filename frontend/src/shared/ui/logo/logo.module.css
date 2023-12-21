@@ -1,0 +1,21 @@
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: 900;
+    font-size: 21px;
+}
+.logo a {
+    color: white;
+    text-decoration: none;
+ }
+.logo svg{
+    /*transform: scale(0.09);*/
+    /*scale: 2;*/
+}
+.logo__img {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+}

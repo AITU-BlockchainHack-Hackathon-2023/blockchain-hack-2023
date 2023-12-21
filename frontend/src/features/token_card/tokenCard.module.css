@@ -1,0 +1,7 @@
+.TokenCard {
+    padding: 2px;
+    margin-bottom: 8px;
+}
+.TokenCard:last-child {
+    margin-bottom: 0;
+}

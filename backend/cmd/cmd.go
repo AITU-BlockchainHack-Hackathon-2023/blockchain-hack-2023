@@ -17,10 +17,10 @@ import (
 	localZap "github.com/Levap123/blockchain-hack-2023/backend/internal/infrastructure/logger/zap"
 	v1 "github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v1"
 	v2 "github.com/Levap123/blockchain-hack-2023/backend/internal/transport/http/v2"
-
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/ethereum/get"
 	getAny "github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/account/get"
 	"github.com/Levap123/blockchain-hack-2023/backend/internal/usecase/transaction/group"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"go.uber.org/zap"
