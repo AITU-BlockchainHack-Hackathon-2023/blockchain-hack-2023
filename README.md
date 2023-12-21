@@ -81,6 +81,15 @@ Namely, how the authors make excellent use of graphical display in order to make
 
 LINK: https://github.com/ualiyevvv/graph-visualizer
 
+The library for visualizing graphs contains the following functionality:
+- panning, zooming canvas
+- graph structure management
+- graph layout using the forced-directed method
+- dynamic change in the graph structure and subsequent visualization
+- animation of arrows in the directions of the edges
+
+**We are very proud of this project and of course we will actively refine it!**
+
 
 ## Solutions and features implemented
 
