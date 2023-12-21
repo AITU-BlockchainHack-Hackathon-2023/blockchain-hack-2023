@@ -5,8 +5,8 @@
 [Project name]
 
 ## Selected problem
-
-[Problem name]
+### Oraclus
+Cryptocurrency network mapping tool: dynamic visualization of wallet interactions and transaction patterns
 
 ## Team name
 
@@ -14,13 +14,13 @@ Koresha
 
 ## Participants
 
-* Full name: Ayan Ualiev. Email: [Email]
+* Full name: Ayan Ualiev. Email: 212345@astanait.edu.kz
 * Full name: Pavel Kim. Email: 212397@astanait.edu.kz
 
 
 ## Abstract
 
-[Provide a brief abstract of your project, summarizing its purpose and key features. Keep it under 50 words.]
+We have created a web application that allows you to view transactions in different blockchains and the connections between senders and recipients within them
 
 ## Demo video
 
@@ -30,7 +30,7 @@ Koresha
 
 ### Prerequisites:
 
-[List any software or tools that need to be installed before running your project.]
+- Docker
 
 ### Running
 
@@ -39,10 +39,10 @@ Koresha
 Basic example:
 ```bash
 # Clone the repository
-git clone [repository-url]
+git clone https://github.com/Levap123/blockchain-hack-2023.git
 
 # Navigate to the project directory
-cd [project-directory]
+cd blockchain hack
 
 # and so on
 ```
@@ -53,7 +53,9 @@ cd [project-directory]
 
 ## Technology stack and organization
 
-[List the technologies, frameworks and development processes used in your project.]
+- Golang for backend
+- Zap for logs
+- Oraclus, Ethplorer API
 
 ## Solutions and features implemented
 
@@ -69,7 +71,10 @@ cd [project-directory]
 
 ## Future work
 
-[Outline potential future improvements or features your team would like to implement.]
+Our project is very flexible for additions and extensions.
+- You can add several options for displaying transaction progress
+- Increase the number of supported blockchains
+- Also, since all data is prepared on the backend, additional logic can be added, such as analyzing transactions for fraud and mixing
 
 ## Additional sources
 
