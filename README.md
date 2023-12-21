@@ -28,7 +28,7 @@ Our project is launched at this link: http://159.223.225.226:9000/
 
 ## Demo video
 
-Video, how CryptoInt works: https://youtu.be/BYRH7m9ludg
+Video, how CryptoInt works: https://www.youtube.com/watch?v=BYRH7m9ludg
 
 ## How to run
 
@@ -80,6 +80,17 @@ Namely, how the authors make excellent use of graphical display in order to make
 ## Our team developed a visualization engine for oriented graphs especially for the project.
 
 LINK: https://github.com/ualiyevvv/graph-visualizer
+
+The library for visualizing graphs contains the following functionality:
+- panning, zooming canvas
+- graph structure management
+- graph layout using the forced-directed method
+- dynamic change in the graph structure and subsequent visualization
+- animation of arrows in the directions of the edges
+
+The most difficult challenge in developing this library was to integrate graph layout logic that would take into account dynamic changes in the graph structure
+
+**We are very proud of this project and of course we will actively refine it!**
 
 
 ## Solutions and features implemented
