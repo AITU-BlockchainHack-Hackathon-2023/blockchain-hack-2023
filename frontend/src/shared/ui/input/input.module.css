@@ -29,6 +29,9 @@
     margin-bottom: 10px;
 
 }
+.input:last-child {
+    margin-bottom: 0;
+}
 .input::placeholder { /* Most modern browsers support this now. */
     color: rgba(53, 53, 53, 0.5);
     font-weight: 500;

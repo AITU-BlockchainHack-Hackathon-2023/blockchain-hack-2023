@@ -1,0 +1,7 @@
+.TransactionsHistory {
+    position: absolute;
+    right: 20px;
+    top: 100px;
+    max-height: 85%;
+    overflow: auto;
+}

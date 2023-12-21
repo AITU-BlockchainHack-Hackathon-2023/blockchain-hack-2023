@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
-import useAdaptive from "./hooks/useAdaptive";
-import useRoom from "./hooks/useRoom";
-import useAuth from "./hooks/useAuth";
+import useAdaptive from "../../shared/libs/hooks/useAdaptive";
+import useAddress from "./hooks/useAddress";
 
 const AppContext = createContext();
 
@@ -12,14 +11,13 @@ export function useAppContext() {
 export function AppContextProvider({ children }) {
 
     const adaptiveHandler = useAdaptive();
-
-    const authHandler = useAuth();
+    const addressHandler = useAddress();
 
     return (
         <AppContext.Provider
             value={{
                 adaptiveHandler,
-                authHandler
+                addressHandler
             }
         }>
             {children}

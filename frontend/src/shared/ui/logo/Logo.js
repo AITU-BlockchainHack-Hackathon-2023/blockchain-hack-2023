@@ -11,9 +11,7 @@ export default function Logo(){
         <div className={styles.logo}
              onClick={e => navigate("/")}
         >
-            {/*<LogoIcon width={45} height={45} />*/}
-            <a href="/">LOGO</a>
-            {/*LOGO*/}
+            <a href="/">KORESHA</a>
         </div>
 
 

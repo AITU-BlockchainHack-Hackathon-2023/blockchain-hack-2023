@@ -17,3 +17,6 @@
     /*margin-bottom: 20px;*/
     background: var(--color-block-bg);
 }
+.block--isRightCenter {
+    align-items: flex-end;
+}

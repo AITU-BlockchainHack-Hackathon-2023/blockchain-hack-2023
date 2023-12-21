@@ -1,53 +1,40 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 
-/**
- * @seconds > 0, иначе он не запустится.
- *
- * Always timer >= 0.
- * Interval не работает если timer <= 0.
- * */
-export default function useTimer(callback=f=>f, seconds=0){
+export default function useTimer() {
 
-    const [running, setRunning] = useState(false);
-    const [timer, setTimer] = useState(seconds);
+    const [seconds, setSeconds] = useState(0);
+    const [isRunning, setIsRunning] = useState(false);
 
-    function startTimer(){
-        if(timer <= 0) {
-            return;
+    useEffect(() => {
+        let timer;
+
+        if (isRunning) {
+            timer = setInterval(() => {
+                if (seconds === 0) {
+                    setIsRunning(false)
+                }
+                if (seconds > 0) {
+                    setSeconds(seconds - 1);
+                    // console.log(seconds)
+                }
+            }, 1000);
+        } else {
+            clearInterval(timer);
         }
-        setRunning(true);
-    }
 
-    function stopTimer(){
-        setRunning(false);
-    }
-
-    function resetTimer(){
-        setTimer(seconds)
-    }
+        return () => clearInterval(timer);
+    }, [seconds, isRunning]);
 
 
-    useEffect(()=>{
-        if(!running) return;
 
-        setTimer((i) => i <= 0 ? i : i - 1)
-        const interval = setInterval(()=>{
-            setTimer((i) => {
-                // console.log('tick', i);
-                return i <= 0 ? i : i - 1
-            });
-        }, 1000);
+    function startTimer (timerSeconds) {
+        setSeconds(timerSeconds)
+        setIsRunning(true);
+    };
 
-        return () => clearInterval(interval);
-    }, [running]);
-
-
-    useEffect(()=>{
-        if(timer <= 0){
-            stopTimer();
-            callback();
-        }
-    }, [timer]);
-
-    return ({ timer, startTimer, stopTimer, resetTimer, setTimer });
+    return ({
+        seconds,
+        isRunning,
+        startTimer
+    })
 }

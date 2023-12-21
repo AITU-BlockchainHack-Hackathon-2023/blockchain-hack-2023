@@ -15,7 +15,9 @@ export default function AppBar({children, padding, left}) {
                 ${left && styles['app-bar-left']}
             `}
         >
-            {children}
+            <div className={styles["app-bar__container"]}>
+                {children}
+            </div>
         </header>
     </>)
 }
