@@ -2,7 +2,7 @@
 
 ## Project name
 
-[Project name]
+CryptoInt (Crypto Intelligence)
 
 ## Selected problem
 ### Oraclus
@@ -20,11 +20,15 @@ Koresha
 
 ## Abstract
 
-We have created a web application that allows you to view transactions in different blockchains and the connections between senders and recipients within them
+We have created a web application that allows you to view transactions in Ethereum and the connections between senders and recipients within them
+
+## Demo 
+
+Our project is launched at this link: http://159.223.225.226:9000/
 
 ## Demo video
 
-[Link to a demo video showcasing your project, if any. Ensure it is less than 3 minutes long.]
+Video, how CryptoInt works: https://youtu.be/BYRH7m9ludg
 
 ## How to run
 
@@ -33,8 +37,6 @@ We have created a web application that allows you to view transactions in differ
 - Docker
 
 ### Running
-
-[Provide specific commands and environment for building and running your project, preferably in a containerized environment.]
 
 Basic example:
 ```bash
@@ -75,11 +77,16 @@ Namely, how the authors make excellent use of graphical display in order to make
 - React
 - Docker
 
+## Our team developed a visualization engine for oriented graphs especially for the project.
+
+LINK: https://github.com/ualiyevvv/graph-visualizer
+
+
 ## Solutions and features implemented
 
 Our solution is built on displaying some information about accounts on various blockchains, as well as a graph display of the progress of transactions between accounts, creating connections between them. You can also see groups of transactions for certain days, and the history of transactions between accounts
 
-Our application works with Bitcoin like blockchains and Ethereum.
+Our application works with Ethereum.
 The principle is:
 - You enter the account address in the search bar
 - This account appears on the map with its latest transactions as a graph
@@ -87,8 +94,9 @@ The principle is:
 
 ## Challenges faced
 
+- The main challenge we faced on the front end was to develop our own library for visualizing graphs. Of course, quality is far from large open source projects, but the library will be actively developed and acquired with new features
 - It was difficult to choose which API to receive data from and how we would collect it, but we quickly solved this problem, and quite successfully
-
+- Also, an API was written to work with Bitcoin like blockchains, but unfortunately, we did not have time to write the frontend on time
 
 ## Lessons learned
 
@@ -103,3 +111,18 @@ Our project is very flexible for additions and extensions.
 - Increase the number of supported blockchains
 - Also, since all data is prepared on the backend, additional logic can be added, such as analyzing transactions for fraud and mixing
 
+## Additional Sources 
+
+- https://habr.com/ru/articles/719640/
+- https://habr.com/ru/companies/bitfury/articles/434282/
+- https://telegra.ph/Money-flow-Lovim-skamera-cherez-otslezhivanie-kriptovalyuty-11-09
+- https://telegra.ph/Gid-po-rassledovaniyu-Bitcoin-tranzakcij-12-28
+- https://habr.com/ru/articles/567198/
+- https://habr.com/ru/companies/ods/articles/464715/
+
+Platforms for visualizing graphs:
+- platform.arkhamintelligence.com
+- shard.ru
+- ethtective.com
+- platform.spotonchain.ai
+- breadcrumbs.app
