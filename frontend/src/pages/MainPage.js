@@ -64,9 +64,9 @@ export default function MainPage() {
             (!addressInfoData || !transactionsData
                 || addressInfoData?.message ==='get transactions: error in request'
                 || transactionsData?.message ==='get transactions: error in request'
-                ) ? (
+                || searchValue === '') ? (
                 <Block isAlignCenter={true} isCenteredByY={true}>
-                    <Typography size={28} weight={700}>Address Not Found</Typography>
+                    <Typography size={28} weight={700}>Search correct address...</Typography>
                 </Block>
             ) : (
                 <>
@@ -74,7 +74,8 @@ export default function MainPage() {
                     {addressValueFroGraph &&  <>
                         <Portfolio addressInfo={addressInfoData}/>
                         <TransactionsHistory transactions={transactionsData}/>
-                    </>}
+                    </>
+                    }
                 </>
             )
         )}
