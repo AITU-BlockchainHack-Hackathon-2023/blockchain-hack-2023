@@ -13,6 +13,7 @@ import AddressSearch from "../features/address_serach/AddressSearch";
 import NavLink from "../shared/ui/nav/NavLink";
 import useToggle from "../shared/libs/hooks/useToggle";
 import AboutProject from "../features/about_project/AboutProject";
+import Typography from "../shared/ui/typography/Typography";
 
 export default function MainPage() {
 
@@ -22,28 +23,26 @@ export default function MainPage() {
 
     const [aboutModal, toggle] = useToggle()
     const [searchValue, setSearchValue] = useState('')
+    const [addressValueFroGraph, setAddressValueFroGraph] = useState('')
 
     async function getData() {
         setIsLoading(true)
-        await fetch(`http://159.223.225.226:8080/api/v1/graph/0xB3764761E297D6f121e79C32A65829Cd1dDb4D32`)
+        await fetch(`http://159.223.225.226:8080/api/v1/graph/${searchValue}`)
             .then(response => response.json())
             .then(result => {
                 console.log(result)
                 setAddressInfoData(result)
+                setAddressValueFroGraph(searchValue)
             })
-        await fetch(`http://159.223.225.226:8080/api/v1/transaction/0xB3764761E297D6f121e79C32A65829Cd1dDb4D32/group?blockchain=ethereum&filter=with`)
+        await fetch(`http://159.223.225.226:8080/api/v1/transaction/${searchValue}/group?blockchain=ethereum&filter=with`)
             .then(response => response.json())
             .then(result => {
                 console.log(result)
                 setTransactionsData(result)
+                setAddressValueFroGraph(searchValue)
             })
         setIsLoading(false)
     }
-
-    useEffect(() => {
-        getData()
-    }, [])
-
 
     return(<>
         {aboutModal && <AboutProject onClose={toggle}/>}
@@ -52,7 +51,7 @@ export default function MainPage() {
                 <GroupFlex width={'100%'} align={'aic'} justify={'jcsb'}>
                     <Logo />
                     <Block width={'60%'}>
-                        <AddressSearch value={searchValue} onChange={setSearchValue} />
+                        <AddressSearch value={searchValue} onChange={setSearchValue} onSubmit={getData} />
                     </Block>
                     <NavLink text={'About project'} onClick={toggle}/>
                 </GroupFlex>
@@ -62,13 +61,20 @@ export default function MainPage() {
         {isLoading ? (
             <Loading />
         ) : (
-            (!addressInfoData || !transactionsData) ? (
-                <NotFoundPage />
+            (!addressInfoData || !transactionsData
+                || addressInfoData?.message ==='get transactions: error in request'
+                || transactionsData?.message ==='get transactions: error in request'
+                ) ? (
+                <Block isAlignCenter={true} isCenteredByY={true}>
+                    <Typography size={28} weight={700}>Address Not Found</Typography>
+                </Block>
             ) : (
                 <>
-                    <MyGraph transactions={transactionsData} />
-                    <Portfolio addressInfo={addressInfoData}/>
-                    <TransactionsHistory transactions={transactionsData}/>
+                    <MyGraph transactions={transactionsData} address={addressValueFroGraph} />
+                    {addressValueFroGraph &&  <>
+                        <Portfolio addressInfo={addressInfoData}/>
+                        <TransactionsHistory transactions={transactionsData}/>
+                    </>}
                 </>
             )
         )}
