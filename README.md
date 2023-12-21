@@ -58,25 +58,43 @@ make run_backend
 
 ## Inspirations
 
-[Explain the inspirations behind your project. What motivated your team to work on this idea?]
+Our team is deeply inspired by the emerging environment of the web3 domain, an area that represents the next generation of Internet applications and services based on blockchain technology, decentralization and the token-based economy. Along with this, we are passionate about the art of graphically representing information. The ability to visually represent data to simplify complex concepts, identify patterns, and make data more accessible is the cornerstone of our project. 
+
+We were very inspired by these products:
+- https://anvaka.github.io/map-of-github
+- https://anvaka.github.io/ngraph.path.demo
+- https://anvaka.github.io/city-roads/
+
+Namely, how the authors make excellent use of graphical display in order to make information simple and clear
 
 ## Technology stack and organization
 
 - Golang for backend
 - Zap for logs
 - Oraclus, Ethplorer API
+- React
+- Docker
 
 ## Solutions and features implemented
 
-[Provide a detailed description of the solutions and features your team implemented. Include images if applicable. This section should be around 200-250 words.]
+Our solution is built on displaying some information about accounts on various blockchains, as well as a graph display of the progress of transactions between accounts, creating connections between them. You can also see groups of transactions for certain days, and the history of transactions between accounts
+
+Our application works with Bitcoin like blockchains and Ethereum.
+The principle is:
+- You enter the account address in the search bar
+- This account appears on the map with its latest transactions as a graph
+- In separate windows there will be his transaction history for a certain period of time
 
 ## Challenges faced
 
-[Discuss the challenges your team encountered during the development process.]
+- It was difficult to choose which API to receive data from and how we would collect it, but we quickly solved this problem, and quite successfully
+
 
 ## Lessons learned
 
-[Share insights and lessons your team gained while working on the project.]
+- We have studied what types of APIs there are for obtaining statistical information from blockchains 
+- Studied the display of graphs
+
 
 ## Future work
 
@@ -85,6 +103,3 @@ Our project is very flexible for additions and extensions.
 - Increase the number of supported blockchains
 - Also, since all data is prepared on the backend, additional logic can be added, such as analyzing transactions for fraud and mixing
 
-## Additional sources
-
-[Include links to any additional sources of useful information that could benefit others interested in your project.]
