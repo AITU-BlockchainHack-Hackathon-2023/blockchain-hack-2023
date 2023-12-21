@@ -44,7 +44,16 @@ git clone https://github.com/Levap123/blockchain-hack-2023.git
 # Navigate to the project directory
 cd blockchain hack
 
-# and so on
+# Run frontend
+make run_frontend_dev
+```
+
+Then go to https://localhost:9000
+
+```bash
+# you can run the backend locally
+make run_backend
+# but this is not required, since the frontend accesses the deployed API
 ```
 
 ## Inspirations
