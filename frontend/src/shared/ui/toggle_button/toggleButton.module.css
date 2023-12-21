@@ -1,0 +1,23 @@
+.toggleButton-wrapper {
+    width: auto;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    background-color: #f0f0f0c9;
+    padding: 2px;
+    margin-bottom: 6px;
+}
+
+.toggleButton {
+    width: 100%;
+    border-radius: 6px;
+    padding: 6px 8px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.toggleButton--active {
+    background-color: #858585;
+    color: white;
+}
