@@ -3,21 +3,20 @@ import {Graph} from "./lib/graph";
 import {TooltipManager} from "./lib/tooltipManager";
 import {ForceDirectedGraph} from "./lib/graphLayout";
 
-export default function MyGraph({transactionsData=[]}) {
+export default function MyGraph({transactionsData=[], address=''}) {
 
 
     const api_url = `http://159.223.225.226:8080/api/v1/`
-    const address = '0xfa9437bda53830ec7aad2b525b6f7a16bf0e9cf2'
 
     async function fetchTransactionsAndBuildGraph(clickedNode, graph, url=api_url) {
-        console.log('FEETCH')
+        // console.log('FEETCH')
         try {
             const response = await fetch(url+`transaction/${clickedNode.id}/group?blockchain=ethereum&filter=with`);
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                // throw new Error(`HTTP error! status: ${response.status}`);
             }
             const transactions = await response.json();
-            console.log('FEETCH transactions', transactions)
+            // console.log('FEETCH transactions', transactions)
 
             // Call the function to build the graph with the fetched transactions
             buildGraphFromTransactions(transactions, graph, clickedNode);
@@ -55,14 +54,22 @@ export default function MyGraph({transactionsData=[]}) {
     }
 
     useEffect(() => {
+        if (address === '') {
+            console.log('GRAPH NOT START')
+            return
+        }
+        console.log('GRAPH START')
         const myGraph = new Graph();
         const canvas = document.getElementById("graphCanvas");
         const tooltip = document.getElementById("tooltip");
         const tooltipManager = new TooltipManager(tooltip);
         const visualization = new ForceDirectedGraph(myGraph, canvas, tooltipManager);
 
+        // buildGraphFromTransactions(transactionsData, myGraph, {id: address})
+        // visualization.runForceLayout();
         (async () => {
             try {
+                // buildGraphFromTransactions(transactionsData, myGraph, {id: address})
                 await fetchTransactionsAndBuildGraph({id: address}, myGraph);
                 // this.runForceLayout();
 
@@ -84,7 +91,7 @@ export default function MyGraph({transactionsData=[]}) {
                 }
             })();
         });
-    })
+    }, [transactionsData])
 
     return (<>
         <canvas id='graphCanvas'></canvas>

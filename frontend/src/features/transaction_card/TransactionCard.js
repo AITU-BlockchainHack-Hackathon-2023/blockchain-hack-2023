@@ -7,9 +7,9 @@ import styles from './transactionCard.module.css'
 
 export default function TransactionCard({transaction = {}}) {
 
-    useEffect(() => {
-        console.log('transac', transaction)
-    });
+    // useEffect(() => {
+    //     console.log('transac', transaction)
+    // });
 
     return (<div className={styles.TransactionCard}>
         <GroupInline>
