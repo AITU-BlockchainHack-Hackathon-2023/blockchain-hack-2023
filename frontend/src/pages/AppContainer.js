@@ -12,22 +12,8 @@ import AboutProject from "../features/about_project/AboutProject";
 
 const AppContainer = ({isContainer=false, isNavbar=false, isHorizontalCenter=false, children, isBoxCentered, isScrollable=false}) => {
 
-    const [aboutModal, toggle] = useToggle()
-    const [searchValue, setSearchValue] = useState('')
 
     return (<>
-        {aboutModal && <AboutProject onClose={toggle}/>}
-        <AppBar padding={'10px'}>
-            <Nav>
-                <GroupFlex width={'100%'} align={'aic'} justify={'jcsb'}>
-                    <Logo />
-                    <Block width={'60%'}>
-                        <AddressSearch value={searchValue} onChange={setSearchValue} />
-                    </Block>
-                    <NavLink text={'About project'} onClick={toggle}/>
-                </GroupFlex>
-            </Nav>
-        </AppBar>
         <Box>
             {children}
         </Box>
